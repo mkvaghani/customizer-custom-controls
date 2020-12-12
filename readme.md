@@ -4,7 +4,7 @@
 **Author URI:** https://maddisondesigns.com  
 **License:** GNU General Public License v2 or later  
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html  
-**Version:** 1.1.3
+**Version:** 1.2.0
 
 ## Description ##
 
@@ -14,7 +14,13 @@ This example code shows how to incorporate Customizer functionality into your th
 
 The example code in `customizer.php` will create a new Panel in the Customizer called `Header & Navigation` which contains three sections (`Social Icons`, `Contact` & `Search`). It also creates two new Sections. One called `Sample Custom Controls`, which contains examples of all the custom controls I created. The other new Section, `Default Controls`, contains examples of all the core controls that come with WordPress.
 
-If you'd like to learn more about Customizer development, you can check out the links to my Customizer Developer's Guide, at the end of this readme.
+If you'd like to learn more about Customizer development, check out my Customizer Developers Guide:  
+[The WordPress Customizer – A Developers Guide (Part 1)](https://maddisondesigns.com/2017/05/the-wordpress-customizer-a-developers-guide-part-1)  
+[The WordPress Customizer – A Developers Guide (Part 2)](https://maddisondesigns.com/2017/05/the-wordpress-customizer-a-developers-guide-part-2)
+
+You can also download a sample theme showing how to implement these Controls:  
+[https://github.com/maddisondesigns/Customizer-Custom-Controls-Sample-Theme](https://github.com/maddisondesigns/Customizer-Custom-Controls-Sample-Theme)
+
 
 ## Core Controls ##
 Input Control (Text, Email, URL, Number, Hidden, Date)  
@@ -1068,6 +1074,32 @@ Download a sample theme showing how to implement these Controls:
 [https://github.com/maddisondesigns/Customizer-Custom-Controls-Sample-Theme](https://github.com/maddisondesigns/Customizer-Custom-Controls-Sample-Theme)
 
 ## Changelog ##
+
+= 1.2.0 =
+- Fixed wp-color-picker-alpha WordPress 5.5 incompatibility - See https://github.com/kallookoo/wp-color-picker-alpha/issues/35
+- Fixed wp-color-picker-alpha Iris Alpha Slider not aligning properly in Firefox - See https://github.com/kallookoo/wp-color-picker-alpha/issues/36
+- Update skyrocket_hex_rgba_sanitization() to sanitize RBG and RGBa colors
+
+= 1.1.9 =
+- Fixed escaping by changing two instance of esc_attr() to esc_html() as per Theme Check plugin recommendations
+- Tidied up styles
+
+= 1.1.8 =
+- Update the Google Font JSON files
+
+= 1.1.7 =
+- Update the property for a couple of styles to only target the background color
+- Update some of the color values to make them lowercase instead of uppercase
+
+= 1.1.6 =
+- Update Pill Checkbox Custom Control to ensure that jQuery UI is listed as a dependency when enqueing scripts
+
+= 1.1.5 =
+- Update Select2 component to load from theme/plugin rather than CDN as per Theme Review Guidelines
+
+= 1.1.4 =
+- Fixed issue with Multiselect in Select2 Control where choices is a single array. Props @manchumahara
+- Added example Select2 Control where the Choices is a single array (instead of a multidimensional array)
 
 = 1.1.3 =
 - Fixed the height in the custom wpColorPicker script for the WPColorPicker Alpha Color Picker Control

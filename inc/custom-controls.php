@@ -119,7 +119,7 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
 					<?php foreach ( $this->choices as $key => $value ) { ?>
 						<label class="radio-button-label">
 							<input type="radio" name="<?php echo esc_attr( $this->id ); ?>" value="<?php echo esc_attr( $key ); ?>" <?php $this->link(); ?> <?php checked( esc_attr( $key ), $this->value() ); ?>/>
-							<span><?php echo esc_attr( $value ); ?></span>
+							<span><?php echo esc_html( $value ); ?></span>
 						</label>
 					<?php	} ?>
 				</div>
@@ -445,10 +445,10 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
 		 * Enqueue our scripts and styles
 		 */
 		public function enqueue() {
-			wp_enqueue_script( 'skyrocket-select2-js', 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js', array( 'jquery' ), '4.0.6', true );
+			wp_enqueue_script( 'skyrocket-select2-js', $this->get_skyrocket_resource_url() . 'js/select2.full.min.js', array( 'jquery' ), '4.0.13', true );
 			wp_enqueue_script( 'skyrocket-custom-controls-js', $this->get_skyrocket_resource_url() . 'js/customizer.js', array( 'skyrocket-select2-js' ), '1.0', true );
 			wp_enqueue_style( 'skyrocket-custom-controls-css', $this->get_skyrocket_resource_url() . 'css/customizer.css', array(), '1.1', 'all' );
-			wp_enqueue_style( 'skyrocket-select2-css', 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css', array(), '4.0.6', 'all' );
+			wp_enqueue_style( 'skyrocket-select2-css', $this->get_skyrocket_resource_url() . 'css/select2.min.css', array(), '4.0.13', 'all' );
 		}
 		/**
 		 * Render the control in the customizer
@@ -479,12 +479,22 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
 							if ( is_array( $value ) ) {
 								echo '<optgroup label="' . esc_attr( $key ) . '">';
 								foreach ( $value as $optgroupkey => $optgroupvalue ) {
-									echo '<option value="' . esc_attr( $optgroupkey ) . '" ' . ( in_array( esc_attr( $optgroupkey ), $defaultValue ) ? 'selected="selected"' : '' ) . '>' . esc_attr( $optgroupvalue ) . '</option>';
+									if( $this->multiselect ){
+										echo '<option value="' . esc_attr( $optgroupkey ) . '" ' . ( in_array( esc_attr( $optgroupkey ), $defaultValue ) ? 'selected="selected"' : '' ) . '>' . esc_attr( $optgroupvalue ) . '</option>';
+									}
+									else{
+										echo '<option value="' . esc_attr( $optgroupkey ) . '" ' . selected( esc_attr( $optgroupkey ), $defaultValue, false )  . '>' . esc_attr( $optgroupvalue ) . '</option>';
+									}
 								}
 								echo '</optgroup>';
 							}
 							else {
-								echo '<option value="' . esc_attr( $key ) . '" ' . selected( esc_attr( $key ), $defaultValue, false )  . '>' . esc_attr( $value ) . '</option>';
+								if( $this->multiselect ){
+									echo '<option value="' . esc_attr( $key ) . '" ' . ( in_array( esc_attr( $key ), $defaultValue ) ? 'selected="selected"' : '' ) . '>' . esc_attr( $value ) . '</option>';
+								}
+								else{
+									echo '<option value="' . esc_attr( $key ) . '" ' . selected( esc_attr( $key ), $defaultValue, false )  . '>' . esc_attr( $value ) . '</option>';
+								}
 							}
 						}
 					?>
@@ -589,7 +599,7 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
 				<?php if( !empty( $this->description ) ) { ?>
 					<span class="customize-control-description"><?php echo esc_html( $this->description ); ?></span>
 				<?php } ?>
-				<textarea id="<?php echo esc_attr( $this->id ); ?>" class="customize-control-tinymce-editor" <?php $this->link(); ?>><?php echo esc_attr( $this->value() ); ?></textarea>
+				<textarea id="<?php echo esc_attr( $this->id ); ?>" class="customize-control-tinymce-editor" <?php $this->link(); ?>><?php echo esc_html( $this->value() ); ?></textarea>
 			</div>
 		<?php
 		}
@@ -652,10 +662,10 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
 		 * Enqueue our scripts and styles
 		 */
 		public function enqueue() {
-			wp_enqueue_script( 'skyrocket-select2-js', 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js', array( 'jquery' ), '4.0.6', true );
+			wp_enqueue_script( 'skyrocket-select2-js', $this->get_skyrocket_resource_url() . 'js/select2.full.min.js', array( 'jquery' ), '4.0.13', true );
 			wp_enqueue_script( 'skyrocket-custom-controls-js', $this->get_skyrocket_resource_url() . 'js/customizer.js', array( 'skyrocket-select2-js' ), '1.0', true );
 			wp_enqueue_style( 'skyrocket-custom-controls-css', $this->get_skyrocket_resource_url() . 'css/customizer.css', array(), '1.1', 'all' );
-			wp_enqueue_style( 'skyrocket-select2-css', 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css', array(), '4.0.6', 'all' );
+			wp_enqueue_style( 'skyrocket-select2-css', $this->get_skyrocket_resource_url() . 'css/select2.min.css', array(), '4.0.13', 'all' );
 		}
 		/**
 		 * Export our List of Google Fonts to JavaScript
@@ -905,7 +915,7 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
 		 */
 		public function enqueue() {
 			wp_enqueue_style( 'skyrocket-custom-controls-css', $this->get_skyrocket_resource_url() . 'css/customizer.css', array(), '1.0', 'all' );
-			wp_enqueue_script( 'wp-color-picker-alpha', $this->get_skyrocket_resource_url() . 'js/wp-color-picker-alpha.js', array( 'wp-color-picker' ), '1.0', true );
+			wp_enqueue_script( 'wp-color-picker-alpha', $this->get_skyrocket_resource_url() . 'js/wp-color-picker-alpha-min.js', array( 'wp-color-picker' ), '1.0', true );
 			wp_enqueue_style( 'wp-color-picker' );
 		}
 		/**
@@ -927,7 +937,7 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
 				<?php if( !empty( $this->description ) ) { ?>
 					<span class="customize-control-description"><?php echo esc_html( $this->description ); ?></span>
 				<?php } ?>
-				<input type="text" class="color-picker" id="<?php echo esc_attr( $this->id ); ?>" name="<?php echo esc_attr( $this->id ); ?>" value="<?php echo esc_attr( $this->value() ); ?>" class="customize-control-colorpicker-alpha-color" <?php echo $this->attributes; ?> <?php $this->link(); ?> />
+				<input type="text" class="wpcolorpicker-alpha-color-picker" id="<?php echo esc_attr( $this->id ); ?>" name="<?php echo esc_attr( $this->id ); ?>" value="<?php echo esc_attr( $this->value() ); ?>" class="customize-control-colorpicker-alpha-color" <?php echo $this->attributes; ?> <?php $this->link(); ?> />
 			</div>
 		<?php
 		}
@@ -970,7 +980,7 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
 		 * Enqueue our scripts and styles
 		 */
 		public function enqueue() {
-			wp_enqueue_script( 'skyrocket-custom-controls-js', $this->get_skyrocket_resource_url() . 'js/customizer.js', array( 'jquery' ), '1.0', true );
+			wp_enqueue_script( 'skyrocket-custom-controls-js', $this->get_skyrocket_resource_url() . 'js/customizer.js', array( 'jquery', 'jquery-ui-core' ), '1.1', true );
 			wp_enqueue_style( 'skyrocket-custom-controls-css', $this->get_skyrocket_resource_url() . 'css/customizer.css', array(), '1.0', 'all' );
 		}
 		/**
@@ -1181,7 +1191,7 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
 	}
 
 	/**
-	 * Alpha Color (Hex & RGBa) sanitization
+	 * Alpha Color (Hex, RGB & RGBa) sanitization
 	 *
 	 * @param  string	Input to be sanitized
 	 * @return string	Sanitized input
@@ -1192,14 +1202,22 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
 				return $setting->default;
 			}
 
-			if ( false === strpos( $input, 'rgba' ) ) {
-				// If string doesn't start with 'rgba' then santize as hex color
+			if ( false === strpos( $input, 'rgb' ) ) {
+				// If string doesn't start with 'rgb' then santize as hex color
 				$input = sanitize_hex_color( $input );
 			} else {
-				// Sanitize as RGBa color
-				$input = str_replace( ' ', '', $input );
-				sscanf( $input, 'rgba(%d,%d,%d,%f)', $red, $green, $blue, $alpha );
-				$input = 'rgba(' . skyrocket_in_range( $red, 0, 255 ) . ',' . skyrocket_in_range( $green, 0, 255 ) . ',' . skyrocket_in_range( $blue, 0, 255 ) . ',' . skyrocket_in_range( $alpha, 0, 1 ) . ')';
+				if ( false === strpos( $input, 'rgba' ) ) {
+					// Sanitize as RGB color
+					$input = str_replace( ' ', '', $input );
+					sscanf( $input, 'rgb(%d,%d,%d)', $red, $green, $blue );
+					$input = 'rgb(' . skyrocket_in_range( $red, 0, 255 ) . ',' . skyrocket_in_range( $green, 0, 255 ) . ',' . skyrocket_in_range( $blue, 0, 255 ) . ')';
+				}
+				else {
+					// Sanitize as RGBa color
+					$input = str_replace( ' ', '', $input );
+					sscanf( $input, 'rgba(%d,%d,%d,%f)', $red, $green, $blue, $alpha );
+					$input = 'rgba(' . skyrocket_in_range( $red, 0, 255 ) . ',' . skyrocket_in_range( $green, 0, 255 ) . ',' . skyrocket_in_range( $blue, 0, 255 ) . ',' . skyrocket_in_range( $alpha, 0, 1 ) . ')';
+				}
 			}
 			return $input;
 		}
